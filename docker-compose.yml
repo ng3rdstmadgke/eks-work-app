@@ -1,0 +1,40 @@
+---
+version: '3.2'
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: docker/backend/Dockerfile
+    container_name: backend
+    hostname: backend.eks-work-app.local
+    volumes:
+      - type: bind
+        source: ${HOST_PROJECT_ROOT}/backend
+        target: /opt/app
+    command: /usr/local/bin/entrypoint.sh --reload
+    networks:
+      br-eks-work-app: {}
+#  front:
+#    image: $eks-work-app/frontend:latest
+#    container_name: frontend
+#    hostname: frontend.eks-work-app.local
+#    volumes:
+#      - type: bind
+#        source: frontend
+#        target: /opt/app
+#    entrypoint: /usr/local/bin/entrypoint.sh
+#    networks:
+#      br-eks-work-app: {}
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx/Dockerfile
+    container_name: nginx
+    hostname: nginx.eks-work-app.local
+    networks:
+      br-eks-work-app: {}
+networks:
+  br-eks-work-app:
+    driver: bridge
+    name: br-eks-work-app
+    external: true
