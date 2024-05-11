@@ -59,3 +59,7 @@ RUN helm repo add eks https://aws.github.io/eks-charts && \
 
 # Flux CLI インストール
 RUN curl -s https://fluxcd.io/install.sh | sudo bash
+
+
+# poetry インストール
+RUN curl -sSL https://install.python-poetry.org | python3 -
