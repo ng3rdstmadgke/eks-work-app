@@ -1,6 +1,10 @@
 from typing import List, Tuple
 from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 from fastapi import FastAPI
+
+class Environment(BaseSettings):
+    stage: str
 
 app = FastAPI(
     redoc_url="/api/redoc",

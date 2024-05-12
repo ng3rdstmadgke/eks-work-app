@@ -61,7 +61,8 @@ RUN helm repo add eks https://aws.github.io/eks-charts && \
 RUN curl -s https://fluxcd.io/install.sh | sudo bash
 
 # poetry インストール
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/home/vscode/.pypoetry python3 - && \
+    chown -R vscode:vscode /home/vscode/.pypoetry
 
 # Node.js v20.x
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \

@@ -12,6 +12,8 @@ services:
         source: ${HOST_PROJECT_ROOT}/backend
         target: /opt/app
     command: /usr/local/bin/entrypoint.sh --debug
+    environment:
+      - STAGE=dev
     networks:
       br-eks-work-app: {}
   front:
