@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: docker/backend/Dockerfile
     container_name: backend
-    hostname: backend.eks-work-app.local
+    hostname: backend-eks-work-app
     volumes:
       - type: bind
         source: ${HOST_PROJECT_ROOT}/backend
@@ -21,12 +21,12 @@ services:
       context: ./
       dockerfile: docker/frontend/Dockerfile
     container_name: frontend
-    hostname: frontend.eks-work-app.local
+    hostname: frontend-eks-work-app
     volumes:
       - type: bind
         source: ${HOST_PROJECT_ROOT}/frontend
         target: /opt/app
-    entrypoint: /usr/local/bin/entrypoint.sh --debug
+    command: /usr/local/bin/entrypoint.sh --debug
     networks:
       br-eks-work-app: {}
   nginx:
@@ -34,7 +34,7 @@ services:
       context: ./
       dockerfile: docker/nginx/Dockerfile
     container_name: nginx
-    hostname: nginx.eks-work-app.local
+    hostname: nginx-eks-work-app
     networks:
       br-eks-work-app: {}
 networks:

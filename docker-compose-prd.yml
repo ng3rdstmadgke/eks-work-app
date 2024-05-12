@@ -6,8 +6,7 @@ services:
       context: ./
       dockerfile: docker/backend/Dockerfile
     container_name: backend
-    hostname: backend.eks-work-app.local
-    command: /usr/local/bin/entrypoint.sh
+    hostname: backend-eks-work-app
     environment:
       - STAGE=prd
     networks:
@@ -17,8 +16,7 @@ services:
       context: ./
       dockerfile: docker/frontend/Dockerfile
     container_name: frontend
-    hostname: frontend.eks-work-app.local
-    entrypoint: /usr/local/bin/entrypoint.sh
+    hostname: frontend-eks-work-app
     networks:
       br-eks-work-app: {}
   nginx:
@@ -26,7 +24,7 @@ services:
       context: ./
       dockerfile: docker/nginx/Dockerfile
     container_name: nginx
-    hostname: nginx.eks-work-app.local
+    hostname: nginx-eks-work-app
     networks:
       br-eks-work-app: {}
 networks:

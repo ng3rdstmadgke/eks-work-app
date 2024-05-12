@@ -44,7 +44,7 @@ const result = ref<number | null>(null)
 const { data: titleData, error: titleError } = await useAsyncData<any>(
   "title",
   () => {
-    return $fetch("http://backend.eks-work-app.local:8000/api/title", {
+    return $fetch("http://backend-eks-work-app:8000/api/title", {
       method: "GET",
     })
   },
