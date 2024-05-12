@@ -62,3 +62,7 @@ RUN curl -s https://fluxcd.io/install.sh | sudo bash
 
 # poetry インストール
 RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Node.js v20.x
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
