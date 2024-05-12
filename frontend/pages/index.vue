@@ -40,6 +40,7 @@ const result = ref<number | null>(null)
 
 /**
  * ページタイトルを取得
+ * フロントサーバー -> バックエンドサーバーへのリクエスト
  */
 const { data: titleData, error: titleError } = await useAsyncData<any>(
   "title",
@@ -58,7 +59,7 @@ if (titleData.value instanceof Error) {
 
 /**
  * フォームの送信処理
- * ブラウザ -> サーバーへのリクエスト
+ * ブラウザ -> Nginxサーバーへのリクエスト
  */
 async function submit() {
   console.log(src.value, dst.value)
