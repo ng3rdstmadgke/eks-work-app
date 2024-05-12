@@ -29,7 +29,6 @@
 </template>
 
 <script setup lang="ts">
-// refは明示的なインポートは不要だが、説明のために記述している
 import { ref } from 'vue'
 
 const title = ref<string>('')
@@ -81,9 +80,4 @@ async function submit() {
   }
   result.value = data.value.distance
 }
-
-/**
- * ページタイトルを取得
- */
-
 </script>
