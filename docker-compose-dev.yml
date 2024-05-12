@@ -11,20 +11,22 @@ services:
       - type: bind
         source: ${HOST_PROJECT_ROOT}/backend
         target: /opt/app
-    command: /usr/local/bin/entrypoint.sh --reload
+    command: /usr/local/bin/entrypoint.sh --debug
     networks:
       br-eks-work-app: {}
-#  front:
-#    image: $eks-work-app/frontend:latest
-#    container_name: frontend
-#    hostname: frontend.eks-work-app.local
-#    volumes:
-#      - type: bind
-#        source: frontend
-#        target: /opt/app
-#    entrypoint: /usr/local/bin/entrypoint.sh
-#    networks:
-#      br-eks-work-app: {}
+  front:
+    build:
+      context: ./
+      dockerfile: docker/frontend/Dockerfile
+    container_name: frontend
+    hostname: frontend.eks-work-app.local
+    volumes:
+      - type: bind
+        source: ${HOST_PROJECT_ROOT}/frontend
+        target: /opt/app
+    entrypoint: /usr/local/bin/entrypoint.sh --debug
+    networks:
+      br-eks-work-app: {}
   nginx:
     build:
       context: ./

@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bookworm
+FROM node:20-bookworm
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -13,16 +13,13 @@ RUN echo 'ja_JP.UTF-8 UTF-8' >> /etc/locale.gen && \
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-# poetry インストール
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:$PATH"
-
-COPY backend /opt/app
+COPY frontend /opt/app
 RUN cd /opt/app && \
-    poetry install --no-dev
+    npm install --loglevel verbose && \
+    npx nuxi build
 
 WORKDIR /opt/app
 
-COPY docker/backend/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/frontend/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 CMD ["/usr/local/bin/entrypoint.sh"]
