@@ -12,7 +12,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend-eks-work-app
+  name: backend-eks-work-app  # コンテナ間通信のためのホスト名となる
 spec:
   # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
   selector:
@@ -33,7 +33,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend-eks-work-app
+  name: frontend-eks-work-app  # コンテナ間通信のためのホスト名となる
 spec:
   # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
   selector:
@@ -53,7 +53,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: eks-work-app-nginx
+  name: nginx-eks-work-app  # コンテナ間通信のためのホスト名となる
 spec:
   # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
   ports:

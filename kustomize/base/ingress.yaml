@@ -32,7 +32,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: eks-work-app-nginx-service
+      name: nginx-eks-work-app
       port:
         number: 80
         
@@ -44,6 +44,6 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: eks-work-app-nginx-service
+              name: nginx-eks-work-app
               port:
                 number: 80
