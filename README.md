@@ -8,6 +8,9 @@
 ./bin/run.sh prd
 ```
 
+`nginx-eks-work-app:80` をポートフォワード
+
+
 # イメージのビルドとECRへのプッシュ
 
 ```bash

@@ -6,6 +6,8 @@ from fastapi import FastAPI
 class Environment(BaseSettings):
     stage: str
 
+env = Environment()
+
 app = FastAPI(
     redoc_url="/api/redoc",
     docs_url="/api/docs",
@@ -16,8 +18,12 @@ app = FastAPI(
 def read_root():
     return {"Hello": "World"}
 
+@app.get("/api/stage")
+def get_stage():
+    return {"stage": env.stage}
+
 @app.get("/api/title")
-def read_root():
+def get_title():
     return {"title": "Edit Distance"}
 
 class EditDistanceRequest(BaseModel):
@@ -25,7 +31,7 @@ class EditDistanceRequest(BaseModel):
     dst: str
 
 @app.post("/api/edit_distance")
-def read_item(
+def get_edit_distance(
     data: EditDistanceRequest,
 ):
     dist, arr = edit_dist(data.src, data.dst)

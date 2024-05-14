@@ -1,0 +1,8 @@
+# Patch using Path Strategic Merge: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/#patch-using-path-strategic-merge
+# patchファイルでは apiVersion, kind, metadata.name を指定して、パッチを適用するリソースを特定します。
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eks-work-app-configmap
+data:
+  STAGE: staging
