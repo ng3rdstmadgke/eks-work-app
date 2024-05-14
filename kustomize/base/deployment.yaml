@@ -1,0 +1,97 @@
+################################
+# backend
+################################
+---
+# https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-work-app-backend  # リソース名 (名前空間内で一意でなければならない)
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      # このラベルと一致する spec.template.metadata.labels を持つ Pod がレプリカセットの対象となる
+      app: eks-work-app-backend
+  template:
+    # PodTemplateSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec
+    metadata:
+      labels:
+        app: eks-work-app-backend
+    spec:
+      # PodSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+      containers:
+      # Container: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
+      - name: eks-work-app-backend
+        image: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/backend:latest
+        command: ["/usr/local/bin/entrypoint.sh"]
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: STAGE
+          valueFrom:
+            configMapKeyRef:
+              name: eks-work-app-configmap
+              key: STAGE
+
+################################
+# frontend
+################################
+---
+# https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-work-app-frontend  # リソース名 (名前空間内で一意でなければならない)
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      # このラベルと一致する spec.template.metadata.labels を持つ Pod がレプリカセットの対象となる
+      app: eks-work-app-frontend
+  template:
+    # PodTemplateSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec
+    metadata:
+      labels:
+        app: eks-work-app-frontend
+    spec:
+      # PodSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+      containers:
+      # Container: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
+      - name: eks-work-app-frontend
+        image: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/frontend:latest
+        command: ["/usr/local/bin/entrypoint.sh"]
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+
+################################
+# nginx
+################################
+---
+# https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-work-app-nginx  # リソース名 (名前空間内で一意でなければならない)
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      # このラベルと一致する spec.template.metadata.labels を持つ Pod がレプリカセットの対象となる
+      app: eks-work-app-nginx
+  template:
+    # PodTemplateSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-template-v1/#PodTemplateSpec
+    metadata:
+      labels:
+        app: eks-work-app-nginx
+    spec:
+      # PodSpec: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#PodSpec
+      containers:
+      # Container: https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Container
+      - name: eks-work-app-nginx
+        image: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/nginx:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

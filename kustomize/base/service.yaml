@@ -1,0 +1,66 @@
+# Service: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/
+
+################################
+# backend
+################################
+---
+# nginxからbackendへのトラフィックを受けるためのClusterIPを作成
+# ClusterIP
+#   ClusterIPは複数のPodを束ねて1つのエンドポイントを提供するサービス
+#   ClusterIPにアクセスすることで、Pod宛の通信をロードバランシングできる
+#   https://www.ios-net.co.jp/blog/20230621-1179/#ClusterIP_%E3%81%A8%E3%81%AF
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-eks-work-app
+spec:
+  # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
+  selector:
+    # このセレクタにマッチするラベルキーと値を持つポッドにサービストラフィックをルーティングします。
+    app: eks-work-app-backend
+  ports:
+  - port: 8000
+
+################################
+# frontend
+################################
+---
+# nginxからfrontendへのトラフィックを受けるためのClusterIPを作成
+# ClusterIP
+#   ClusterIPは複数のPodを束ねて1つのエンドポイントを提供するサービス
+#   ClusterIPにアクセスすることで、Pod宛の通信をロードバランシングできる
+#   https://www.ios-net.co.jp/blog/20230621-1179/#ClusterIP_%E3%81%A8%E3%81%AF
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-eks-work-app
+spec:
+  # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
+  selector:
+    # このセレクタにマッチするラベルキーと値を持つポッドにサービストラフィックをルーティングします。
+    app: eks-work-app-frontend
+  ports:
+  - port: 3000
+
+################################
+# nginx
+################################
+---
+# ALBからのトラフィックはNodePortを経由してPodに到達するため、NodePortを指定する
+# NodePort:
+#   NodePortはClusterIPに加えて、各ノードの指定されたポートを開放します。
+#   https://www.ios-net.co.jp/blog/20230621-1179/#NodePort%E3%81%A8%E3%81%AF
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-work-app-nginx
+spec:
+  # ServiceSpec: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceSpec
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  type: NodePort
+  selector:
+    # このセレクタにマッチするラベルキーと値を持つポッドにサービストラフィックをルーティングします。
+    app: eks-work-app-nginx
