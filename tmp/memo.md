@@ -29,7 +29,7 @@ eks-work-app-nginx-f9d94fc7b-brt6b       1/1     Running   0          19m
 eks-work-app-nginx-f9d94fc7b-mlfwk       1/1     Running   0          19m
 
 # nginxのコンテナからbackendにリクエストを送信
-kubectl exec -it eks-work-app-nginx-f9d94fc7b-brt6b -c eks-work-app-nginx -- curl "http://backend-eks-work-app:8000/api"
+kubectl exec -it eks-work-app-nginx-f9d94fc7b-brt6b -c eks-work-app-nginx -- curl "http://backend-eks-work-app:8000/api/title"
 
 # 削除
 kubectl delete -f deployment.yaml

@@ -50,11 +50,15 @@ const { data: titleData, error: titleError } = await useAsyncData<any>(
   },
 )
 
-if (titleData.value instanceof Error) {
-  console.error(titleError.value)
-} else {
-  title.value = titleData.value.title
-}
+onMounted(() => {
+  if (titleData.value instanceof Error) {
+    console.error(titleError.value)
+    return
+  }
+  if (titleData.value) {
+    title.value = titleData.value.title
+  }
+})
 
 /**
  * フォームの送信処理
