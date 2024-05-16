@@ -1,4 +1,4 @@
-# 開発環境起動
+# ■ 開発環境起動
 
 ```bash
 # 開発モード
@@ -11,19 +11,19 @@
 `nginx-eks-work-app:80` をポートフォワード
 
 
-# イメージのビルドとECRへのプッシュ
+# ■ イメージのビルドとECRへのプッシュ
 
 ```bash
 ./bin/build.sh push
 ```
 
-# update-kubeconfig
+# ■ update-kubeconfig
 
 ```bash
 aws eks --region ap-northeast-1 update-kubeconfig --name eks-work-prd
 ```
 
-# アプリのデプロイ
+# ■ アプリのデプロイ
 
 作成
 
@@ -83,4 +83,84 @@ kubectl delete svc nginx-eks-work-app-service -n $STAGE
 
 # 削除
 $ kubectl delete -k kustomize/overlays/$STAGE
+```
+
+# ■ CI/CDの設定
+
+aws eks update-kubeconfig --name eks-work-prd
+
+## Fluxツールキットコンポーネントのインストール・Fluxリポジトリの自動生成
+
+```bash
+export GITHUB_TOKEN= ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+export GITHUB_USER=ng3rdstmadgke
+
+# Fluxマニフェストを管理するGitHubリポジトリを作成し、Fluxツールキットコンポーネントをクラスタにデプロイする
+# flux bootstrap githubコマンド: https://fluxcd.io/flux/cmd/flux_bootstrap/
+flux bootstrap github \
+  --owner=${GITHUB_USER} \
+  --repository=eks-work-flux\
+  --branch=main \
+  --path=eks-work-app \
+  --personal
+
+# ツールキットコンポーネントの確認
+# Toolkit components: https://fluxcd.io/flux/components/
+kubectl get deployment -n flux-system
+```
+
+## Fluxリポジトリに設定ファイルを作成
+
+```bash
+git clone git@github.com:ng3rdstmadgke/eks-work-flux.git
+cd eks-work-flux/
+
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+export GITHUB_USER=ng3rdstmadgke
+
+mkdir eks-work-app/production
+
+# SourceController: GitHubやS3などに保管されるソースコードを取得するための共通インターフェースを提供します。
+# - flux create source gitコマンド
+#   https://fluxcd.io/flux/cmd/flux_bootstrap_github/
+# - Source Controller
+#   https://fluxcd.io/flux/components/source/
+#   - GitRepositoryマニフェスト
+#     https://fluxcd.io/flux/components/source/gitrepositories/
+flux create source git eks-work-app-production \
+  --url=https://github.com/${GITHUB_USER}/eks-work-app \
+  --branch=main \
+  --interval=30s \
+  --export > ./eks-work-app/production/app-source.yaml 
+
+# Kustomize Controller: Source Controllerで取得したアーティファクト内のKustomizeマニフェストを取得し、Kubernetesクラスタに適用するためのパイプラインを定義します
+# - flux create kustomization コマンド
+#   https://fluxcd.io/flux/cmd/flux_create_kustomization/
+# - KustomizeController
+#   https://fluxcd.io/flux/components/kustomize/
+#   - Kustomizationマニフェスト
+#     https://fluxcd.io/flux/components/kustomize/kustomizations/
+flux create kustomization eks-work-app-production \
+  --target-namespace=production \
+  --source=eks-work-app-production \
+  --path="./kustomize/overlays/production" \
+  --prune=true \
+  --interval=1m \
+  --export > ./eks-work-app/production/app-sync.yaml
+
+# コミットしてプッシュ
+git add .
+git commit -m "first commit"
+git push origin main
+
+```
+
+# ソースを修正してデプロイされるか確認
+
+```bash
+cd eks-work-app
+git checkout -B feature/test01 origin/main
+git add .
+git commit -m “test”
+git push origin feature/test01
 ```
