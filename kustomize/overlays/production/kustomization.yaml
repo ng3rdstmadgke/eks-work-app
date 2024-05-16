@@ -2,9 +2,7 @@
 # Kustomizeの概要と使い方: https://note.shiftinc.jp/n/nd7f17e51d592#ef1a28c4-390c-4359-9f2f-48134111fdd8
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-bases:
-  # baseのkustomization.yamlが存在するディレクトリの相対パスを指定
-  - ../../base
+
 # namespace: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/namespace/
 #   既存の名前空間がリソースに設定されている場合は上書き、リソースに設定されていない場合は追加
 namespace: production
@@ -12,12 +10,12 @@ namespace: production
 # replicas: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/replicas/
 # nameに一致するDeploymentやReplicaSetのレプリカ数を上書き
 replicas:
-- name: eks-work-app-backend
-  count: 4
-- name: eks-work-app-frontend
-  count: 4
-- name: eks-work-app-nginx
-  count: 3
+- count: 4
+  name: eks-work-app-backend
+- count: 4
+  name: eks-work-app-frontend
+- count: 3
+  name: eks-work-app-nginx
 
 # images: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/images/
 # nameに一致するコンテナイメージのタグを上書き
@@ -32,4 +30,8 @@ images:
 # patches: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
 #   - Patch using Path Strategic Merge: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/#patch-using-path-strategic-merge
 patches:
-  - path: configmap.patch.yaml
+- path: configmap.patch.yaml
+
+# baseのkustomization.yamlが存在するディレクトリの相対パスを指定
+resources:
+- ../../base
