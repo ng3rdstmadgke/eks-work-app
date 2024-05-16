@@ -16,7 +16,7 @@ app = FastAPI(
 
 @app.get("/api")
 def read_root():
-    return {"Hello": "mido"}
+    return {"Hello": "World"}
 
 @app.get("/api/stage")
 def get_stage():
