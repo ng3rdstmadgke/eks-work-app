@@ -165,4 +165,6 @@ git checkout -B feature/test01 origin/main
 git add .
 git commit -m “test”
 git push origin feature/test01
+
+# GitHub側でプルリクエストを作成してマージ
 ```
