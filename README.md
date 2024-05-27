@@ -157,7 +157,7 @@ git push origin main
 
 ```
 
-# ソースを修正してデプロイされるか確認
+## ソースを修正してデプロイされるか確認
 
 ```bash
 cd eks-work-app
@@ -167,4 +167,16 @@ git commit -m “test”
 git push origin feature/test01
 
 # GitHub側でプルリクエストを作成してマージ
+```
+
+# ■ リソースのクリーンアップ
+
+```bash
+# ClusterにインストールしたFluxツールキットコンポーネントをアンインストール
+flux uninstall --namespace=flux-system
+
+# Kustomizeで作成したIngressリソースを含むDeploymentなどのリソースの削除
+# Ingressが削除されることでALBも自動的に削除されます
+kubectl delete -k kustomize/overlays/staging
+kubectl delete -k kustomize/overlays/production
 ```
