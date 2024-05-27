@@ -65,6 +65,12 @@ RUN curl -s https://fluxcd.io/install.sh | sudo bash
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash && \
     mv kustomize /usr/local/bin/
 
+# Argo CD CLI インストール
+# https://argo-cd.readthedocs.io/en/stable/cli_installation/#download-with-curl
+RUN curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 && \
+    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd && \
+    rm argocd-linux-amd64
+
 # poetry インストール
 RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=/home/vscode/.pypoetry python3 - && \
     chown -R vscode:vscode /home/vscode/.pypoetry
