@@ -23,7 +23,7 @@
 aws eks --region ap-northeast-1 update-kubeconfig --name eks-work-prd
 ```
 
-# ■ アプリのデプロイ
+# ■ 手動でのアプリのデプロイ
 
 作成
 
@@ -85,7 +85,7 @@ kubectl delete svc nginx-eks-work-app-service -n $STAGE
 $ kubectl delete -k kustomize/overlays/$STAGE
 ```
 
-# ■ Fluxの設定
+# ■ Fluxを利用したアプリのデプロイ
 
 ```bash
 aws eks update-kubeconfig --name eks-work-prd
