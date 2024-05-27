@@ -169,6 +169,18 @@ git push origin feature/test01
 # GitHub側でプルリクエストを作成してマージ
 ```
 
+# ■ ArgoCDを利用したアプリのデプロイ
+
+## ArgoCDのインストール
+
+```bash
+kubectl create namespace argocd
+
+# サービスの作成
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+
 # ■ リソースのクリーンアップ
 
 ```bash
