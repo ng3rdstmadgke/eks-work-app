@@ -85,9 +85,11 @@ kubectl delete svc nginx-eks-work-app-service -n $STAGE
 $ kubectl delete -k kustomize/overlays/$STAGE
 ```
 
-# ■ CI/CDの設定
+# ■ Fluxの設定
 
+```bash
 aws eks update-kubeconfig --name eks-work-prd
+```
 
 ## Fluxツールキットコンポーネントのインストール・Fluxリポジトリの自動生成
 
