@@ -24,7 +24,7 @@ def get_stage():
 
 @app.get("/api/title")
 def get_title():
-    return {"title": "Edit Distance 2"}
+    return {"title": "Edit Distance 3"}
 
 class EditDistanceRequest(BaseModel):
     src: str
