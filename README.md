@@ -178,6 +178,41 @@ kubectl create namespace argocd
 
 # サービスの作成
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# 確認
+$ kubectl get deployment -n argocd
+NAME                               READY   UP-TO-DATE   AVAILABLE   AGE
+argocd-applicationset-controller   1/1     1            1           7d11h
+argocd-dex-server                  1/1     1            1           7d11h
+argocd-notifications-controller    1/1     1            1           7d11h
+argocd-redis                       1/1     1            1           7d11h
+argocd-repo-server                 1/1     1            1           7d11h
+argocd-server                      1/1     1            1           7d11h
+```
+
+## 管理者パスワードの初期化と更新
+
+```bash
+# adminユーザーのパスワードを初期化
+argocd admin initial-password -n argocd
+
+# adminユーザーでArgoCDにログイン
+argocd login localhost:8080
+
+# adminユーザーのパスワードの更新
+argocd account update-password
+```
+
+## ArgoCDに接続
+
+```bash
+# argocd-server が存在することを確認
+kubectl get svc -n argocd
+
+# ポートフォワーディング
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+# localhost:8080 をvscodeでポートフォワーディング
 ```
 
 ## ソースを修正してデプロイされるか確認
