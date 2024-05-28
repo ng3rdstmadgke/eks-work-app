@@ -21,11 +21,11 @@ replicas:
 # nameに一致するコンテナイメージのタグを上書き
 images:
 - name: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/backend
-  newTag: 3e57f8589f99a6be6edf1f873ea7b7415203d798
+  newTag: 8c8d7cdc40c95ef72c6ab42c656db8141691a13f
 - name: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/frontend
-  newTag: 3e57f8589f99a6be6edf1f873ea7b7415203d798
+  newTag: 8c8d7cdc40c95ef72c6ab42c656db8141691a13f
 - name: 674582907715.dkr.ecr.ap-northeast-1.amazonaws.com/eks-work-app/nginx
-  newTag: 3e57f8589f99a6be6edf1f873ea7b7415203d798
+  newTag: 8c8d7cdc40c95ef72c6ab42c656db8141691a13f
 
 # patches: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
 #   - Patch using Path Strategic Merge: https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/#patch-using-path-strategic-merge
